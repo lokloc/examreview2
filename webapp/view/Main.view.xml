@@ -1,0 +1,157 @@
+<mvc:View controllerName="code.d01.examreview2.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    >
+    <Page id="page" title="{i18n>title}">
+
+        <Panel 
+            class="sapUiResponsiveMargin"
+            width="auto"
+            expandable="true"
+            expanded="true"
+        >
+            <Toolbar >
+                <Title text="신규 상품 등록"></Title>
+                <ToolbarSpacer ></ToolbarSpacer>
+                <!-- 신규 상품 등록 -->
+                <Button 
+                    text="추가"
+                    icon="sap-icon://add"
+                    press=".onButtonAddPress"
+                ></Button>
+            
+            
+            </Toolbar>
+                <form:SimpleForm >
+                    <Label text="창고"></Label>
+                    <RadioButtonGroup columns="2">
+                        <buttons>
+                            <RadioButton selected="{new>/Input/City/Seoul}" text="서울"></RadioButton>
+                            <RadioButton selected="{new>/Input/City/Busan}" text="부산"></RadioButton>
+                        </buttons>
+                    </RadioButtonGroup>
+
+                    <Label text="제품명" labelFor="idProductNameInput" required="true"></Label>
+                    <Input 
+                    id="idProductNameInput"
+                    value="{ path:'new>/Input/ProductName',
+                             type: 'sap.ui.model.type.String',
+                             constraints: {minLength: 1}
+                    
+                    }" placeholder="입력해주세요"></Input>
+
+                    <Label text="가격"></Label>
+                    <Input value="{
+                            path:'new>/Input/Price',
+                            type:'sap.ui.model.type.Integer',
+                            constraints: {minimum: 0},
+                            formatOptions: {
+                                groupingEnabled: true
+                            }
+                    }"></Input>
+                    <Input value="{new>/Input/Currency}" editable="false"></Input>
+
+                    <Label text="수량"></Label>
+                    <Input value="{
+                            path:'new>/Input/Quantity',
+                            type: 'sap.ui.model.type.Integer',
+                            constraints: {minimum: 0},
+                            formatOptions: {
+                                groupingEnabled: true
+                            }
+                    }"></Input>
+                    <Input value="{new>/Input/Unit}" editable="false"></Input>
+
+                    
+                
+                
+                
+                </form:SimpleForm>
+        
+        
+        
+        
+        
+        </Panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <Panel 
+            class="sapUiResponsiveMargin"
+            width="auto"
+            headerText="{i18n>panelTitle}"
+        >
+            <headerToolbar>
+                <Toolbar >
+                    <Title text="상품재고목록"></Title>
+                    <ToolbarSpacer ></ToolbarSpacer>
+                    <Text text="창고"></Text>
+                    <ComboBox selectedKey="A"
+                              selectionChange=".onComboBoxSelectionChange"
+                    >
+                        <core:Item key="A" text="전체"></core:Item>
+                        <core:Item key="S" text="서울"></core:Item>
+                        <core:Item key="B" text="부산"></core:Item>
+                    </ComboBox>
+                </Toolbar>
+            </headerToolbar>
+            <List 
+                id="idList"
+                items= "{path:'/Products', 
+                sorter: {path:'Storage', group: true}}"
+            >
+                <items>
+                    <ObjectListItem 
+                        title="{ProductName}"
+                        number="{ parts: [ 'Quantity', 'Unit' ],
+                                  type: 'sap.ui.model.type.Unit',
+                                  formatOptions: {showMeasure: false} }"
+                        numberUnit="{Unit}"
+                    >
+                    <firstStatus>
+                        <ObjectStatus 
+                            title="재고상태"
+                            text="{path: 'Quantity',
+                                   formatter: '.formatter.quantityText'
+                            }"
+                        ></ObjectStatus>
+                    
+                    </firstStatus>
+                        <attributes>
+                            <ObjectAttribute 
+                                title="창고"
+                                text="{Storage}"
+                            />
+                            <ObjectAttribute 
+                                title="가격"
+                                text="{ parts: ['Price', 'Currency'],
+                                        type: 'sap.ui.model.type.Currency' }"
+                            />
+                        </attributes>
+                    </ObjectListItem>
+                </items>
+
+            </List>
+        </Panel>
+    </Page>
+</mvc:View>
